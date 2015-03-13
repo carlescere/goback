@@ -1,5 +1,9 @@
 # goback
 [![GoDoc](https://godoc.org/github.com/carlescere/goback?status.svg)](https://godoc.org/github.com/carlescere/goback)
+[![Build Status](https://travis-ci.org/carlescere/goback.svg)](https://travis-ci.org/carlescere/goback)
+[![Coverage Status](https://coveralls.io/repos/carlescere/goback/badge.svg)](https://coveralls.io/r/carlescere/goback)
+
+
 Goback implements a simple exponential backoff.
 
 An exponential backoff approach is typically used when treating with potentially faulty/slow systems. If a system fails quick retries may exacerbate the system specially when the system is dealing with several clients. In this case a backoff provides the faulty system enough room to recover.
