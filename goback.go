@@ -105,6 +105,22 @@ func Wait(b Backoff) error {
 	return nil
 }
 
+// After returns a channel that will be called after the time specified by the backoff
+// strategy or will exit immediately with an error.
+func After(b Backoff) <-chan error {
+	c := make(chan error, 1)
+	next, err := b.NextAttempt()
+	if err != nil {
+		c <- err
+		return c
+	}
+	go func() {
+		time.Sleep(next)
+		c <- nil
+	}()
+	return c
+}
+
 // addJitter randomises the final duration
 func addJitter(next, min time.Duration) time.Duration {
 	return time.Duration(rand.Float64()*float64(2*min) + float64(next-min))

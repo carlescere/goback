@@ -8,6 +8,35 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestAfter(t *testing.T) {
+	b := &SimpleBackoff{
+		Factor:      2,
+		Min:         100 * time.Millisecond,
+		Max:         2 * time.Second,
+		MaxAttempts: 1,
+	}
+	var t1, t2, t3 time.Time
+	var err1, err2 error
+	t1 = time.Now()
+	select {
+	case err1 = <-After(b):
+		t2 = time.Now()
+	case <-time.After(101 * time.Millisecond):
+		t.Error("Not executed on time")
+	}
+	select {
+	case err2 = <-After(b):
+	case <-time.After(time.Millisecond):
+		t.Error("Not executed on time")
+	}
+	t3 = time.Now()
+	assert.WithinDuration(t, t1.Add(100*time.Millisecond), t2, time.Millisecond)
+	assert.WithinDuration(t, t2, t3, time.Millisecond)
+	assert.Nil(t, err1)
+	assert.NotNil(t, err2)
+
+}
+
 func TestWait(t *testing.T) {
 	b := &SimpleBackoff{
 		Factor:      2,
