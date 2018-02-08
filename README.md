@@ -11,11 +11,11 @@ An exponential backoff approach is typically used when treating with potentially
 ## How to use
 ```go
 func main() {
-        b := &goback.SimpleBackoff(
+        b := &goback.SimpleBackoff{
                 Min:    100 * time.Millisecond,
                 Max:    60 * time.Second,
                 Factor: 2,
-        )
+        }
         goback.Wait(b)           // sleeps 100ms
         goback.Wait(b)           // sleeps 200ms
         goback.Wait(b)           // sleeps 400ms
