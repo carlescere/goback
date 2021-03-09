@@ -15,7 +15,7 @@ func faultyTCPGenerator() func(string, string, string) (net.Listener, error) {
 	return func(protocol, address, port string) (net.Listener, error) {
 		if failedAttempts > 0 {
 			failedAttempts--
-			return nil, fmt.Errorf("Haha!") // :)
+			return nil, fmt.Errorf("haha") // :)
 		}
 		l, err := net.Listen(protocol, fmt.Sprintf("%s:%s", address, port))
 		return l, err
